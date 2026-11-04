@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play Wordsy Free: Daily 5-Letter Word Game in Your Browser</title>
+<meta name="description" content="Play Wordsy free in your browser: guess the hidden 5-letter word in six tries. A new daily puzzle, unlimited practice, streaks and shareable results. No sign-up.">
+<link rel="canonical" href="https://lifeguru24.in/play.html">
+<link rel="icon" type="image/png" href="icon.png">
+<meta property="og:site_name" content="Wordsy by Life Guru"><meta property="og:type" content="website">
+<meta property="og:title" content="Play Wordsy Free: Daily 5-Letter Word Game"><meta property="og:url" content="https://lifeguru24.in/play.html">
+<link rel="stylesheet" href="style.css">
+<style>
+#board{display:grid;gap:5px;justify-content:center;margin:18px 0}
+.brow{display:flex;gap:5px;justify-content:center}
+.c{width:54px;height:54px;border:2px solid var(--border);display:grid;place-items:center;font-weight:800;font-size:28px;text-transform:uppercase;border-radius:4px}
+.c.f{border-color:var(--muted)} .c.g,.c.y,.c.x{color:#fff;border-color:transparent}
+.c.g{background:var(--green)} .c.y{background:var(--yellow)} .c.x{background:var(--grey)}
+#kb{margin:10px auto;max-width:480px} .kr{display:flex;gap:5px;justify-content:center;margin:5px 0}
+.k{flex:1;min-width:0;height:50px;border:0;border-radius:5px;background:var(--border);color:var(--fg);font:700 .95rem system-ui,sans-serif;cursor:pointer;text-transform:uppercase;padding:0}
+.k.w{flex:1.6;font-size:.8rem} .k.g{background:var(--green);color:#fff} .k.y{background:var(--yellow);color:#fff} .k.x{background:var(--grey);color:#fff}
+#msg{min-height:1.6em;text-align:center;font-weight:700}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.btn{background:var(--card);border:1px solid var(--border);color:var(--fg);padding:9px 16px;border-radius:999px;font:600 .95rem system-ui,sans-serif;cursor:pointer}
+.btn.pri{background:var(--wa);color:var(--wa-text);border-color:transparent}
+.stats{display:flex;justify-content:center;gap:22px;text-align:center;margin:8px 0} .stats b{display:block;font-size:1.5rem}
+@media(max-width:420px){.c{width:46px;height:46px;font-size:24px}.k{height:46px}}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5184279034798144" crossorigin="anonymous"></script>
+</head><body>
+<header class="top"><a class="brand" href="./">Wordsy</a><nav aria-label="Main"><a href="play.html">Play</a><a href="how-to-play.html">How to play</a><a href="guides.html">Guides</a><a href="faq.html">FAQ</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></header>
+<main class="page">
+<h1>Play Wordsy</h1>
+<p class="lead">Guess the hidden 5-letter word in six tries. Green = right spot, yellow = wrong spot, grey = not in the word.</p>
+<div class="btns"><button class="btn pri" id="mDaily">Daily puzzle</button><button class="btn" id="mFree">Practice (random word)</button></div>
+<div id="msg" aria-live="polite"></div>
+<div id="board" aria-label="Game board"></div>
+<div id="kb"></div>
+<div class="btns"><button class="btn" id="share" hidden>Share result</button><button class="btn" id="next" hidden>New practice word</button></div>
+<div class="stats" id="stats"></div>
+<noscript><p>Wordsy needs JavaScript to run in the browser.</p></noscript>
+
+<h2>How this page works</h2>
+<p>The daily puzzle is the same for everyone on the same calendar day (by your device date) and changes at midnight. Practice mode picks a random word as often as you like. Your streak and statistics are stored only in your own browser; nothing is sent to our server. Wordsy accepts about 12,000 common English five-letter words as guesses, and the answers come from a smaller, hand-picked list of familiar words.</p>
+<p>New to the game? Read <a href="how-to-play.html">how to play</a>, the <a href="guides/best-starting-words.html">best starting words</a> and our <a href="guides/five-letter-word-strategy.html">solving strategy</a>. Also see how <a href="guides/repeated-letters-explained.html">repeated letters</a> are scored.</p>
+</main>
+<footer class="foot">© 2026 Jayant Singh (Life Guru) · Bengaluru, India · <a href="about.html">About</a> · <a href="how-to-play.html">How to play</a> · <a href="guides.html">Guides</a> · <a href="faq.html">FAQ</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="cookies.html">Cookies</a> · <a href="disclaimer.html">Disclaimer</a> · <a href="refund.html">Refunds &amp; cancellations</a> · <a href="shipping.html">Delivery</a> · <a href="contact.html">Contact</a></footer>
+<script src="words.js"></script>
+<script>
+(function(){
+var OK={};ALLOWED.forEach(function(w){OK[w]=1});
+var mode="daily",ans="",rows=[],cur="",over=false,keys={};
+var $=function(i){return document.getElementById(i)};
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+function pad(n){return ("0"+n).slice(-2)}
+function key(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function today(){return key(new Date())}
+function dayNum(){var d=new Date();return Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5)}
+function dailyWord(){return ANSWERS[(dayNum()*7919+13)%ANSWERS.length]}
+function score(g,a){var r=["x","x","x","x","x"],left={},i;
+for(i=0;i<5;i++){if(g[i]==a[i])r[i]="g";else left[a[i]]=(left[a[i]]||0)+1}
+for(i=0;i<5;i++){if(r[i]!="g"&&left[g[i]]>0){r[i]="y";left[g[i]]--}}return r}
+function msg(t){$("msg").textContent=t}
+function rank(a){return {g:3,y:2,x:1}[a]||0}
+function draw(){var b=$("board");b.innerHTML="";
+for(var r=0;r<6;r++){var row=document.createElement("div");row.className="brow";
+var g=r<rows.length?rows[r]:(r==rows.length?cur:""),sc=r<rows.length?score(rows[r],ans):null;
+for(var c=0;c<5;c++){var d=document.createElement("div");d.className="c"+(sc?" "+sc[c]:(g[c]?" f":""));d.textContent=g[c]||"";row.appendChild(d)}
+b.appendChild(row)}
+var L=["qwertyuiop","asdfghjkl","+zxcvbnm-"],k=$("kb");k.innerHTML="";
+L.forEach(function(s){var rr=document.createElement("div");rr.className="kr";
+s.split("").forEach(function(ch){var x=document.createElement("button");
+x.className="k"+(ch=="+"||ch=="-"?" w":"")+(keys[ch]?" "+keys[ch]:"");
+x.textContent=ch=="+"?"enter":ch=="-"?"del":ch;
+x.onclick=function(){press(ch=="+"?"Enter":ch=="-"?"Backspace":ch)};rr.appendChild(x)});
+k.appendChild(rr)})}
+function press(k){if(over)return;
+if(k=="Backspace"){cur=cur.slice(0,-1)}else if(k=="Enter"){submit();return}
+else if(/^[a-z]$/.test(k)&&cur.length<5){cur+=k}draw()}
+function submit(){if(cur.length<5){msg("Type a 5-letter word first");return}
+if(!OK[cur]){msg("Not in the word list");return}
+var sc=score(cur,ans);
+cur.split("").forEach(function(ch,i){if(rank(sc[i])>rank(keys[ch]))keys[ch]=sc[i]});
+rows.push(cur);var won=cur==ans;cur="";msg("");
+if(won||rows.length==6){over=true;finish(won)}save();draw()}
+function stats(){try{return JSON.parse(ls("wordsy_stats"))||{p:0,w:0,s:0,b:0,last:""}}catch(e){return {p:0,w:0,s:0,b:0,last:""}}}
+function finish(won){$("share").hidden=false;if(mode=="free"){$("next").hidden=false}
+msg(won?["Genius!","Magnificent!","Impressive!","Splendid!","Great!","Phew!"][rows.length-1]:"The word was "+ans.toUpperCase());
+if(mode=="daily"&&ls("wordsy_counted")!=today()){ls("wordsy_counted",today());var s=stats();s.p++;
+if(won){s.w++;var y=key(new Date(Date.now()-864e5));s.s=(s.last==y?s.s:0)+1;s.b=Math.max(s.b,s.s);s.last=today()}else{s.s=0}
+ls("wordsy_stats",JSON.stringify(s))}showStats()}
+function showStats(){var s=stats();
+$("stats").innerHTML=[["Played",s.p],["Win %",s.p?Math.round(100*s.w/s.p):0],["Streak",s.s],["Best",s.b]].map(function(a){return "<div><b>"+a[1]+"</b>"+a[0]+"</div>"}).join("")}
+function save(){if(mode=="daily")ls("wordsy_daily",JSON.stringify({d:today(),rows:rows,keys:keys}))}
+function start(m){mode=m;rows=[];cur="";over=false;keys={};$("share").hidden=true;$("next").hidden=true;msg("");
+$("mDaily").className="btn"+(m=="daily"?" pri":"");$("mFree").className="btn"+(m=="free"?" pri":"");
+if(m=="daily"){ans=dailyWord();
+try{var s=JSON.parse(ls("wordsy_daily"));if(s&&s.d==today()){rows=s.rows;keys=s.keys||{};
+var last=rows[rows.length-1];if(last==ans||rows.length==6){over=true;draw();finish(last==ans);return}}}catch(e){}}
+else{ans=ANSWERS[Math.floor(Math.random()*ANSWERS.length)]}
+draw()}
+$("mDaily").onclick=function(){start("daily")};$("mFree").onclick=function(){start("free")};$("next").onclick=function(){start("free")};
+$("share").onclick=function(){var won=rows[rows.length-1]==ans,e={g:"🟩",y:"🟨",x:"⬜"};
+var t="Wordsy "+(mode=="daily"?today():"practice")+" "+(won?rows.length:"X")+"/6\n"+rows.map(function(r){return score(r,ans).map(function(c){return e[c]}).join("")}).join("\n")+"\nhttps://lifeguru24.in/play.html";
+if(navigator.share){navigator.share({text:t}).catch(function(){})}
+else if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){msg("Result copied")})}
+else{msg("Copy not supported here")}};
+document.addEventListener("keydown",function(e){if(e.ctrlKey||e.metaKey||e.altKey)return;var k=e.key;
+if(k=="Enter"||k=="Backspace")press(k);else if(k.length==1)press(k.toLowerCase())});
+showStats();start("daily");
+})();
+</script>
+</body></html>
