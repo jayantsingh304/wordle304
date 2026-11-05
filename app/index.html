@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wordsy for Android: Free Daily 5-Letter Word Game</title>
+<meta name="description" content="Wordsy by Life Guru is a free daily 5-letter word game. Guess the hidden word in 6 tries. Get the Android app on Google Play.">
+<link rel="icon" type="image/png" href="/icon.png">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1f2328; --muted: #57606a; --card: #f6f8fa; --border: #d0d7de;
+    --green: #538d4e; --yellow: #c9b458; --grey: #787c7e; --cta: #25d366; --cta-text: #0b3d1f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #121213; --fg: #e6edf3; --muted: #9aa4ae; --card: #1c1d1f; --border: #3a3a3c; --grey: #3a3a3c; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 17px/1.6 -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; color: var(--fg); background: var(--bg); }
+  main { max-width: 640px; margin: 0 auto; padding: 40px 16px 24px; }
+  .tiles { display: flex; gap: 6px; margin-bottom: 22px; }
+  .tile { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 4px; color: #fff; font-weight: 800; font-size: 28px; }
+  .g { background: var(--green); } .y { background: var(--yellow); } .x { background: var(--grey); }
+  h1 { font-size: 2.2rem; line-height: 1.15; margin: 0 0 12px; }
+  .lead { color: var(--muted); font-size: 1.15rem; margin: 0 0 26px; }
+  .play { display: inline-flex; align-items: center; gap: 12px; background: var(--cta); color: var(--cta-text); text-decoration: none;
+          font-weight: 800; font-size: 1.2rem; padding: 16px 26px; border-radius: 999px; }
+  .play:hover { filter: brightness(1.05); }
+  .small { color: var(--muted); font-size: .95rem; margin-top: 12px; }
+  .shots { display: flex; gap: 12px; margin: 34px 0 0; }
+  .shots img { width: calc(50% - 6px); height: auto; border-radius: 18px; border: 1px solid var(--border); }
+  section { margin-top: 40px; }
+  h2 { font-size: 1.25rem; margin: 0 0 12px; }
+  ol { padding-left: 1.2em; margin: 0; } li { margin: 6px 0; }
+  .legend { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-top: 16px; }
+  .legend div { margin: 4px 0; }
+  main a { color: #0a6b3a; }
+  @media (prefers-color-scheme: dark) { main a { color: #5fd08c; } }
+  footer { max-width: 640px; margin: 0 auto; padding: 24px 16px 40px; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--border); }
+  footer a { color: inherit; }
+  @media (max-width: 380px) { .tile { width: 44px; height: 44px; font-size: 24px; } h1 { font-size: 1.8rem; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="tiles" aria-hidden="true">
+    <div class="tile g">W</div><div class="tile y">O</div><div class="tile x">R</div>
+    <div class="tile g">D</div><div class="tile g">S</div><div class="tile y">Y</div>
+  </div>
+  <h1>Wordsy for Android</h1>
+  <p class="lead">A free daily word game by <strong>Life Guru</strong>. Guess the hidden 5-letter word in 6 tries. A new word every day, the same for everyone.</p>
+  <a class="play" id="get" href="https://play.google.com/store/apps/details?id=in.lifeguru24.wordsy&amp;referrer=utm_source%3Dmeta%26utm_medium%3Dpaid%26utm_campaign%3Dapp_install">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.2v17.6L20.5 12z"/></svg>
+    Get it on Google Play
+  </a>
+  <p class="small">Free · Android · No sign-up needed. Prefer your browser? <a href="/play.html">Play on the website</a>.</p>
+
+  <div class="shots">
+    <img src="screen-mid.png" width="500" height="1083" alt="Wordsy on a phone: two guesses played, three tries left">
+    <img src="screen-win.png" width="500" height="1083" alt="Wordsy result screen: the word was solved in 3 of 6 tries">
+  </div>
+
+  <section>
+    <h2>How it works</h2>
+    <ol>
+      <li>Type any 5-letter word and tap Enter.</li>
+      <li>After each guess the squares show how close you are.</li>
+      <li>Solve it in 6 tries, then share your result with friends.</li>
+    </ol>
+    <div class="legend">
+      <div>🟩 Right letter, right spot</div>
+      <div>🟨 In the word, wrong spot</div>
+      <div>⬜ Not in the word</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Good to know</h2>
+    <p>One daily puzzle, new at midnight (India time), plus Unlimited practice. Hints are available inside the game. See the <a href="/how-to-play.html">full rules</a>, the <a href="/faq.html">FAQ</a> and our <a href="/privacy.html#android">privacy policy for the app</a>.</p>
+  </section>
+</main>
+<footer>
+  © 2026 Jayant Singh (Life Guru) · Bengaluru, India · <a href="/about.html">About</a> · <a href="/how-to-play.html">How to play</a> · <a href="/faq.html">FAQ</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="/contact.html">Contact</a>
+  <br>Wordsy is independent and not affiliated with The New York Times. Google Play is a trademark of Google LLC.
+</footer>
+</body>
+</html>
