@@ -6,6 +6,7 @@
 <title>Wordsy for Android: Free Daily 5-Letter Word Game</title>
 <meta name="description" content="Wordsy by Life Guru is a free daily 5-letter word game. Guess the hidden word in 6 tries. Get the Android app on Google Play.">
 <link rel="icon" type="image/png" href="/icon.png">
+<meta http-equiv="refresh" content="0; url=https://play.google.com/store/apps/details?id=in.lifeguru24.wordsy&amp;referrer=utm_source%3Dmeta%26utm_medium%3Dpaid%26utm_campaign%3Dapp_install">
 <style>
   :root {
     --bg: #ffffff; --fg: #1f2328; --muted: #57606a; --card: #f6f8fa; --border: #d0d7de;
@@ -79,12 +80,13 @@
   </section>
 </main>
 <script>
-  // On Android, open the Play Store app straight on the package id (market://); everywhere else the https link above is used.
+  // Send visitors straight to Google Play: the Play Store app by package id (market://) on Android, the https store page elsewhere.
+  // The page below only shows if the redirect is blocked. Add ?stay=1 to read it without leaving.
   (function () {
-    var a = document.getElementById("get");
-    if (a && /Android/i.test(navigator.userAgent)) {
-      a.href = "market://details?id=in.lifeguru24.wordsy&referrer=utm_source%3Dmeta%26utm_medium%3Dpaid%26utm_campaign%3Dapp_install";
-    }
+    var a = document.getElementById("get"), q = "&referrer=utm_source%3Dmeta%26utm_medium%3Dpaid%26utm_campaign%3Dapp_install";
+    var url = /Android/i.test(navigator.userAgent) ? "market://details?id=in.lifeguru24.wordsy" + q : a.href;
+    if (/Android/i.test(navigator.userAgent)) a.href = url;
+    if (location.search.indexOf("stay=1") < 0) location.replace(url);
   })();
 </script>
 <footer>
