@@ -48,7 +48,7 @@
   </div>
   <h1>Wordsy for Android</h1>
   <p class="lead">A free daily word game by <strong>Life Guru</strong>. Guess the hidden 5-letter word in 6 tries. A new word every day, the same for everyone.</p>
-  <a class="play" id="get" href="https://play.google.com/store/apps/details?id=in.lifeguru24.wordsy&amp;referrer=utm_source%3Dmeta%26utm_medium%3Dpaid%26utm_campaign%3Dapp_install">
+  <a class="play" id="get" href="https://play.google.com/store/apps/details?id=in.lifeguru24.wordsy&amp;referrer=utm_source%3Dmeta%26utm_medium%3Dpaid%26utm_campaign%3Dapp_install" rel="noopener">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.2v17.6L20.5 12z"/></svg>
     Get it on Google Play
   </a>
@@ -78,6 +78,15 @@
     <p>One daily puzzle, new at midnight (India time), plus Unlimited practice. Hints are available inside the game. See the <a href="/how-to-play.html">full rules</a>, the <a href="/faq.html">FAQ</a> and our <a href="/privacy.html#android">privacy policy for the app</a>.</p>
   </section>
 </main>
+<script>
+  // On Android, open the Play Store app straight on the package id (market://); everywhere else the https link above is used.
+  (function () {
+    var a = document.getElementById("get");
+    if (a && /Android/i.test(navigator.userAgent)) {
+      a.href = "market://details?id=in.lifeguru24.wordsy&referrer=utm_source%3Dmeta%26utm_medium%3Dpaid%26utm_campaign%3Dapp_install";
+    }
+  })();
+</script>
 <footer>
   © 2026 Jayant Singh (Life Guru) · Bengaluru, India · <a href="/about.html">About</a> · <a href="/how-to-play.html">How to play</a> · <a href="/faq.html">FAQ</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="/contact.html">Contact</a>
   <br>Wordsy is independent and not affiliated with The New York Times. Google Play is a trademark of Google LLC.
